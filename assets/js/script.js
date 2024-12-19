@@ -1,4 +1,6 @@
 function retryGame() {
+  // Atiestata spēli, paslēpjot ziņojumu, atkārtot spēles pogu un spēles elementus.
+  // Atgriež sākotnējo stāvokli, aktivizējot izvēlnes pogu un grūtības izvēli.
   document.getElementById("message").style.display = "none";
   document.getElementById("retryButton").style.display = "none";
   document.getElementById("game").style.display = "none";
@@ -12,6 +14,7 @@ function retryGame() {
 }
 
 function startNewGame() {
+  // Sāk jaunu spēli, paslēpjot spēles pogu un iestata izvēlēto grūtības līmeni.
   document.getElementById("play-btn").style.display = "none";
 
   setLevel();
@@ -21,6 +24,7 @@ function startNewGame() {
 }
 
 function toggleInstruction() {
+  // Parāda vai paslēpj instrukcijas sadaļu, atkarībā no tās pašreizējā stāvokļa.
   const instruction = document.getElementById("instruction");
   event.stopPropagation();
 
@@ -34,6 +38,7 @@ function toggleInstruction() {
 }
 
 document.addEventListener("click", (event) => {
+  // Paslēpj instrukciju, ja lietotājs noklikšķina ārpus tās.
   const instruction = document.getElementById("instruction");
 
   if (instruction.style.display === "flex") {
@@ -43,10 +48,12 @@ document.addEventListener("click", (event) => {
 });
 
 document.getElementById("text-wrapper").addEventListener("click", (event) => {
+  // Aptur klikšķa notikuma izplatīšanu, lai neaktivizētu ārējā klikšķa funkciju.
   event.stopPropagation();
 });
 
 const LEVELS = {
+  // Definē grūtības līmeņus ar rindām, kolonnām un mīnām katrā līmenī.
   easy: { rows: 8, cols: 8, mines: 10 },
   normal: { rows: 10, cols: 10, mines: 20 },
   hard: { rows: 15, cols: 15, mines: 40 },
@@ -56,12 +63,14 @@ const LEVELS = {
 let currentGame;
 
 function setLevel() {
+  // Iestata spēles līmeni, balstoties uz lietotāja izvēli un izveido jaunu Minesweeper objektu.
   const level = document.getElementById("difficulty").value;
   const { rows, cols, mines } = LEVELS[level];
   currentGame = new Minesweeper(rows, cols, mines);
 }
 
 function showGame(firstElement, secondElement, thirdElement) {
+  // Slēpj vienu elementu, rāda otru un bloķē trešo.
   var elementToHide = document.getElementById(firstElement);
   var elementToShow = document.getElementById(secondElement);
   var elementToBlock = document.getElementById(thirdElement);
@@ -73,6 +82,7 @@ function showGame(firstElement, secondElement, thirdElement) {
 
 class Minesweeper {
   constructor(rows, cols, mines) {
+    // Inicializē Minesweeper spēles objektu ar noteiktām rindām, kolonnām un mīnām.
     this.rows = rows;
     this.cols = cols;
     this.mines = mines;
@@ -85,6 +95,7 @@ class Minesweeper {
   }
 
   generateBoard() {
+    // Ģenerē tukšu spēles laukumu ar norādīto rindu un kolonnu skaitu.
     this.board = Array.from({ length: this.rows }, () =>
       Array.from({ length: this.cols }, () => ({
         mine: false,
@@ -96,6 +107,7 @@ class Minesweeper {
   }
 
   placeMines() {
+    // Izvieto mīnas nejaušās vietās uz laukuma.
     let placedMines = 0;
     while (placedMines < this.mines) {
       const row = Math.floor(Math.random() * this.rows);
@@ -108,6 +120,7 @@ class Minesweeper {
   }
 
   calculateNumbers() {
+    // Aprēķina katras šūnas blakus esošo mīnu skaitu.
     const directions = [
       [-1, -1],
       [-1, 0],
@@ -143,6 +156,7 @@ class Minesweeper {
   }
 
   revealCell(row, col) {
+    // Atklāj šūnu un pārbauda spēles stāvokli (uzvara vai zaudējums).
     const cell = this.board[row][col];
     if (cell.revealed || cell.flagged) return;
 
@@ -181,6 +195,7 @@ class Minesweeper {
   }
 
   floodFill(row, col) {
+    // Atklāj tukšās šūnas un to apkārtni, ja nav blakus esošo mīnu.
     const directions = [
       [-1, -1],
       [-1, 0],
@@ -208,6 +223,7 @@ class Minesweeper {
   }
 
   toggleFlag(row, col) {
+    // Pārslēdz šūnas karoga stāvokli.
     const cell = this.board[row][col];
     if (cell.revealed) return;
 
@@ -216,11 +232,13 @@ class Minesweeper {
   }
 
   revealAll() {
+    // Atklāj visas šūnas uz spēles laukuma.
     this.board.forEach((row) => row.forEach((cell) => (cell.revealed = true)));
     this.render();
   }
 
   render() {
+    // Zīmē spēles laukumu, atjaunojot šūnu vizualizāciju.
     const game = document.getElementById("game");
     game.innerHTML = "";
 
