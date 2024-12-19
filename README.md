@@ -4,7 +4,7 @@
 
 ![Sapieris spēles demonstrācija](assets/gif/minesweepergif.gif)
 
-## Saite uz prezentāciju - [text](https://prezi.com/view/XFBoWTRX30q4wnVcRX3h/)
+## Saite uz prezentāciju - [saite uz prezentāciju](https://prezi.com/view/XFBoWTRX30q4wnVcRX3h/)
 
 ## Spēles apraksts
 
